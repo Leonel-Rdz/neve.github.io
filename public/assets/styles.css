@@ -1,0 +1,615 @@
+/* ==========================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================== */
+:root {
+  /* Colores principales: verde y rosa pastel */
+  --green: #c9eac9;
+  --pink: #ffd6e8;
+
+  /* Rosa de énfasis: para texto activo, enlaces y detalles.
+     Antes había tres tonos casi iguales sueltos por el CSS
+     (#d66390, #e26392, #dc759b); ahora es uno solo. */
+  --rose: #d6608d;
+
+  --ink: #203536;
+  --cream: #fffdf7;
+  --muted: #5e7070;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==========================================
+   2. ENCABEZADO Y NAVEGACIÓN (SITE HEADER)
+   ========================================== */
+.site-header {
+  height: 84px;
+  padding: 0 clamp(24px, 6vw, 92px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--cream);
+  position: relative;
+  z-index: 5;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  letter-spacing: .13em;
+}
+
+.brand span {
+  font-family: Fraunces, serif;
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.brand small {
+  font-size: 8px;
+  letter-spacing: .3em;
+  margin-top: 4px;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 35px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.site-header nav a {
+  opacity: .7;
+  transition: color .2s, opacity .2s;
+}
+
+.site-header nav a:hover {
+  opacity: 1;
+  color: var(--rose);
+}
+
+.contact-pill,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 13px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.contact-pill {
+  background: var(--pink);
+  padding: 13px 18px;
+}
+
+.contact-pill:hover,
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 22px -6px rgba(214, 96, 141, .35),
+    0 8px 18px -8px rgba(160, 219, 160, .35);
+}
+
+/* ==========================================
+   3. SECCIÓN HERO (HERO)
+   ========================================== */
+.hero {
+  position: relative;
+  isolation: isolate; /* contiene las capas de fondo dentro del hero */
+
+  min-height: min(700px, 86vh);
+  padding: 90px clamp(24px, 8vw, 130px) 84px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 560px) 1fr;
+  align-items: center;
+
+  background: var(--cream); /* respaldo mientras carga la foto */
+  overflow: hidden;
+}
+
+/* Fotografía de fondo */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Desplaza el encuadre a la derecha: deja libre la zona del texto
+     y mantiene las botellas dentro del cuadro. */
+  object-position: 72% center;
+}
+
+/* Degradado que funde la foto con la columna de texto.
+   Dos capas: crema para legibilidad, menta para la identidad. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    linear-gradient(105deg,
+      rgba(201, 234, 201, .55) 0%,
+      rgba(201, 234, 201, .18) 34%,
+      rgba(201, 234, 201, 0) 58%),
+    linear-gradient(90deg,
+      var(--cream) 0%,
+      rgba(255, 253, 247, .95) 30%,
+      rgba(255, 253, 247, .72) 45%,
+      rgba(255, 253, 247, .24) 62%,
+      rgba(255, 253, 247, 0) 78%);
+}
+
+.hero-copy {
+  max-width: 560px;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .19em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+}
+
+.eyebrow i {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+}
+
+.hero h1,
+.section-heading h2,
+.essence h2,
+.cta h2 {
+  font-family: Fraunces, serif;
+  font-size: clamp(43px, 5vw, 75px);
+  line-height: 1.01;
+  letter-spacing: -.055em;
+  margin: 0;
+  font-weight: 600;
+}
+
+.hero h1 em,
+.essence h2 em {
+  font-weight: 500;
+  color: var(--rose);
+}
+
+.hero-text {
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 450px;
+  margin: 25px 0 29px;
+  color: #365758;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.button {
+  padding: 16px 23px;
+}
+
+.button-dark {
+  background: var(--ink);
+  color: white;
+}
+
+.text-link {
+  font-size: 13px;
+  font-weight: 700;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+
+.hero-note {
+  margin-top: 52px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sparkle {
+  color: var(--rose);
+  font-size: 20px;
+  margin-right: 6px;
+}
+
+
+/* ==========================================
+   4. SECCIÓN DE SABORES (FLAVORS SECTION)
+   ========================================== */
+.flavors-section {
+  padding: 120px clamp(24px, 8vw, 130px);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.section-heading h2,
+.essence h2,
+.cta h2 {
+  font-size: clamp(38px, 4.5vw, 62px);
+}
+
+.section-heading > p {
+  max-width: 310px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0;
+}
+
+.flavor-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, .55fr) 1.45fr;
+  gap: 48px;
+  align-items: stretch;
+}
+
+.flavor-menu {
+  border-top: 1px solid #d7e6da;
+}
+
+.flavor-option {
+  width: 100%;
+  padding: 16px 0;
+  border: 0;
+  border-bottom: 1px solid #d7e6da;
+  background: none;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font: 600 13px "DM Sans";
+  color: #718181;
+  text-align: left;
+  cursor: pointer;
+}
+
+.flavor-option span {
+  font-family: Fraunces, serif;
+  font-size: 21px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.flavor-option b {
+  margin-left: auto;
+  opacity: 0;
+  transition: .2s;
+}
+
+.flavor-option.active {
+  color: var(--rose);
+}
+
+.flavor-option.active b {
+  opacity: 1;
+}
+
+.flavor-feature {
+  background: var(--flavor-bg, #f3dfb8);
+  border-radius: 22px;
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  transition: background .35s;
+}
+
+.flavor-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.flavor-art:before {
+  content: "";
+  position: absolute;
+  width: 245px;
+  height: 245px;
+  border: 1px dashed #fff9;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.art-fruit {
+  font-size: 104px;
+  filter: drop-shadow(0 12px 6px #0002);
+  position: absolute;
+  left: 30px;
+  bottom: 25px;
+  opacity: .72;
+}
+
+.bottle {
+  width: 147px;
+  height: 292px;
+  border-radius: 20px 20px 28px 28px;
+  background: linear-gradient(100deg, #fffdf1, #e9e4cf 45%, #fffdf2);
+  box-shadow: 18px 18px 18px #43341b2e;
+  position: relative;
+  border: 1px solid #e7dfc5;
+  transform: rotate(4deg);
+}
+
+.cap {
+  position: absolute;
+  top: -20px;
+  left: 35px;
+  width: 76px;
+  height: 24px;
+  border-radius: 7px 7px 1px 1px;
+  background: #df5269;
+}
+
+.bottle-label {
+  position: absolute;
+  inset: 69px 14px 29px;
+  background: #fcf9e9;
+  border: 1px solid #e8e0c9;
+  padding: 23px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bottle-label small {
+  font: 600 17px Fraunces, serif;
+}
+
+.bottle-label strong {
+  font-size: 12px;
+  color: var(--flavor-accent, #b88048);
+}
+
+.bottle-label span {
+  font-size: 9px;
+  line-height: 1.25;
+  color: #617170;
+}
+
+.flavor-info {
+  align-self: center;
+  padding: 42px 36px 42px 5px;
+}
+
+.flavor-info > p:first-child {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  margin: 0 0 13px;
+}
+
+.flavor-info h3 {
+  font: 600 49px/1 Fraunces, serif;
+  letter-spacing: -.05em;
+  margin: 0 0 10px;
+}
+
+.flavor-tag {
+  font-size: 12px;
+  font-weight: 700;
+  background: #fff9;
+  padding: 7px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.flavor-info > p:nth-of-type(2) {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #385758;
+  max-width: 280px;
+  margin: 20px 0;
+}
+
+/* ==========================================
+   6. CALL TO ACTION (CTA) Y FOOTER
+   ========================================== */
+.cta {
+  padding: 73px clamp(24px, 8vw, 130px);
+  background: var(--pink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.button-light {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+footer {
+  padding: 32px clamp(24px, 8vw, 130px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #667675;
+}
+
+footer .brand {
+  color: var(--ink);
+}
+
+footer .brand span {
+  font-size: 22px;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* ==========================================
+   7. DISEÑO RESPONSIVO (MÓVIL)
+   ========================================== */
+@media (max-width: 760px) {
+  .site-header {
+    height: 70px;
+    padding: 0 20px;
+  }
+
+  .site-header nav {
+    display: none;
+  }
+
+  .contact-pill {
+    font-size: 11px;
+    padding: 11px 14px;
+  }
+
+  /* En móvil el texto va arriba y la foto se ve debajo,
+     así que el degradado pasa a ser vertical. */
+  .hero {
+    grid-template-columns: 1fr;
+    align-items: start;
+
+    min-height: 640px;
+    padding: 52px 25px 40px;
+  }
+
+  .hero::before {
+    background:
+      linear-gradient(180deg,
+        var(--cream) 0%,
+        rgba(255, 253, 247, .94) 34%,
+        rgba(255, 253, 247, .55) 58%,
+        rgba(255, 253, 247, 0) 82%),
+      linear-gradient(160deg,
+        rgba(201, 234, 201, .5) 0%,
+        rgba(201, 234, 201, 0) 45%);
+  }
+
+  .hero-media img {
+    object-position: 62% bottom;
+  }
+
+  .hero-note {
+    margin-top: 32px;
+  }
+
+  .section-heading,
+  .cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .flavors-section {
+    padding: 78px 25px;
+  }
+
+  .flavor-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .flavor-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flavor-option {
+    padding: 12px 5px;
+    gap: 6px;
+  }
+
+  .flavor-option span {
+    font-size: 17px;
+  }
+
+  .flavor-option b {
+    display: none;
+  }
+
+  .flavor-feature {
+    min-height: 520px;
+    grid-template-columns: 1fr;
+  }
+
+  .flavor-art {
+    min-height: 260px;
+  }
+
+  .flavor-info {
+    padding: 0 28px 34px;
+  }
+
+  .flavor-info h3 {
+    font-size: 45px;
+  }
+
+  .essence {
+    grid-template-columns: 1fr;
+  }
+
+  .essence-image {
+    height: 350px;
+  }
+
+  .essence-copy {
+    padding: 58px 25px;
+  }
+
+  .cta {
+    padding: 60px 25px;
+  }
+
+  footer {
+    padding: 30px 25px;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  footer p {
+    order: 3;
+    width: 100%;
+  }
+}
